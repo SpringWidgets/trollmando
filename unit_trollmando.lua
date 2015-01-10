@@ -1,12 +1,12 @@
 function widget:GetInfo()
     return {
-        name      = "Trollmando v1",
+        name      = "Trollmando v2",
         desc      = "Shows commando build range + binds mine build to z key",
         author    = "[teh]decay aka [teh]undertaker aka [DoR]Saruman",
         date      = "10 jan 2015",
         license   = "The BSD License",
         layer     = 0,
-        version   = 1,
+        version   = 2,
         enabled   = true  -- loaded by default
     }
 end
@@ -14,7 +14,8 @@ end
 -- project page on github: https://github.com/SpringWidgets/trollmando
 
 --Changelog
--- v2
+-- v2 [teh]decay fixed some minor bugs
+-- v3
 
 local GetUnitPosition     = Spring.GetUnitPosition
 local glColor = gl.Color
@@ -143,17 +144,18 @@ function widget:PlayerChanged(playerID)
     return true
 end
 
-function widget:Initialize()
-    detectSpectatorView()
-    return true
-end
-
 function detectSpectatorView()
     local _, _, spec, teamId = spGetPlayerInfo(spGetMyPlayerID())
 
     if spec then
         spectatorMode = true
     end
+
+    refreshCommandosInfo()
+end
+
+function refreshCommandosInfo()
+    commandos = {}
 
     local visibleUnits = spGetAllUnits()
     if visibleUnits ~= nil then
@@ -168,16 +170,19 @@ function detectSpectatorView()
     end
 end
 
-
-local binds={
+local binds = {
     "bind z buildunit_cormine4",
     "bind shift+z buildunit_cormine4"
 }
 
 function widget:Initialize()
+    detectSpectatorView()
+
     for k,v in ipairs(binds) do
         Spring.SendCommands(v)
     end
+
+    return true
 end
 
 function widget:Shutdown()
