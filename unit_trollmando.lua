@@ -1,6 +1,6 @@
 function widget:GetInfo()
     return {
-        name      = "Trollmando v2",
+        name      = "Trollmando v3",
         desc      = "Shows commando build range + binds mine build to z key",
         author    = "[teh]decay aka [teh]undertaker aka [DoR]Saruman",
         date      = "14 feb 2015",
